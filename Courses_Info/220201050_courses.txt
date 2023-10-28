@@ -1,0 +1,8 @@
+cse 2101,Digital Logic design,6 month
+cse 2102,Digital Logic,6 month
+cse 2103,data structure,6 month
+cse 2104,statistics,6 month
+cse 2105,object oriented,6 month
+cse 2106,electronics engineering,6 month
+cse 2107,project,6 month
+CSE 2108,Object Oriented Programming,6 Month
