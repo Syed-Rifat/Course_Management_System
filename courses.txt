@@ -1,5 +1,0 @@
-cse 2103,data structure and algorithm,6 month
-CSE 2101,Digital Logic Design,6 Month
-cse 2101,data structure,6 month
-cse 2101,data structure,6 month
-cse 2101,data structure,6 mon
