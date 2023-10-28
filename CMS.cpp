@@ -1,6 +1,4 @@
-#include <iostream>
-#include <string>
-#include <cstdio>
+
 /*
     Project Name : "Course Management System"
     Project Aurthor : "Syed Rifat"
@@ -8,13 +6,17 @@
 
 */
 
-
+#include <iostream>
+#include <string>
+#include <cstdio>
 #include <fstream>
 #include <cstdlib>
 #include <vector>
 #include <sstream>
 #include <dirent.h>
 #include <algorithm>
+
+
 
 using namespace std;
 
@@ -123,11 +125,11 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
         inFile.close();
         outFile.close();
 
-  
+
         // Rename temp.txt to courses.txt
 
-      //  if (remove(filePath.c_str()) == 0) {     
-      //  } 
+      //  if (remove(filePath.c_str()) == 0) {
+      //  }
         remove(filePath.c_str());
         rename(tempfilePath.c_str(), filePath.c_str());
 
@@ -226,6 +228,19 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
         }
     }
 
+    
+    
+    
+    bool createFolder(const string& path, const string& folderName) {
+        string folderPath = path + folderName;
+
+        if (_mkdir(folderPath.c_str()) == 0) return true;
+        else return false;
+    }
+
+
+
+
     void AddStudent(const string& userID) {
         // Check if the student is already added
         ifstream crfile("C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + AccessKey +"\\"+ userID + ".txt");
@@ -244,6 +259,11 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
         
         if (rfile.is_open()) {
             rfile.close();
+
+            // first we have to create  a folder where i want to save txt file
+            string path = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\";
+            createFolder(path,AccessKey);
+
             // Remove the requested file and move it to the added directory
             ofstream wfile("C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + AccessKey +"\\"+ userID + ".txt");
             cout << "Student " << userID << " added successfully." << endl;
@@ -278,7 +298,9 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
             cout << "Error removing student with userID " << userID << "." << endl;
         }
     }
-
+    
+    
+    
     void DisplayAllStudents() {
         // Specify the directory path for added students
         string directoryPath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + AccessKey ;
@@ -317,6 +339,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
     void RequestForAdmision(const string& userID){
         string filePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + userID +"\\"+ AccessKey + ".txt";
         string filePath1 = "C:\\Users\\User\\Desktop\\Course_Management_System\\Requested_Student\\" + userID +"\\"+ AccessKey + ".txt";
+        string path="C:\\Users\\User\\Desktop\\Course_Management_System\\Requested_Student\\";
         ifstream chkAdded(filePath);
         if(chkAdded.is_open()){
             cout<<"Alredy Added."<<endl;
@@ -328,6 +351,10 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
             cout<< "Alredy Requested."<<endl;
         }
         else {
+            // first we have to create the folder userID name 
+
+            createFolder(path,userID);
+            // then we create a txt file
             ofstream wFile(filePath1);
             wFile.close();
             cout<< "Successfully request sent" << endl;
@@ -345,7 +372,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
 
         //ifstream rsFile("C:\\Users\\User\\Desktop\\Course_Management_System\\Requested_Student\\" + userID + ".txt");
         //ifstream asFile("C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + userID + ".txt");
-        
+
         if(rsFile.is_open() && rs == true){
             cout<<endl<<userID<<" Requested Student is found."<<endl;
         }
@@ -369,7 +396,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
             return;
         }
 
-    
+
         // check if there exist 5 course already then we will do a specific task
         bool chkLine = true;
         string line;
@@ -414,7 +441,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
                     cout << "Course added successfully" << endl;
                     break;
                 }
-                
+
             }
         }
 
@@ -422,7 +449,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
 
 
     //another add student course function
-    
+
     bool isStudentAccessAllowed(const string& studentCode) {
         string accessFilePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + studentCode + "\\" + AccessKey + ".txt";
         ifstream accessFile(accessFilePath.c_str());
@@ -495,7 +522,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
     //for show added courses
     void ShowMyCourses(const string& studentCode) {
         string filePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + studentCode + "\\" + AccessKey + ".txt";
-        
+
         ifstream studentFile(filePath.c_str());
 
         if (!studentFile.is_open()) {
@@ -515,13 +542,13 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
 
         studentFile.close();
     }
-    
-    
-    
+
+
+
     // Function to delete a specific line from a text file
     void DeleteMyCourse(const string& studentCode, int lineToDelete) {
         string filePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + studentCode + "\\" + AccessKey + ".txt";
-        
+
         ifstream inputFile(filePath.c_str());
         if (!inputFile.is_open()) {
             cout << "Failed to open the file: " << filePath << endl;
@@ -604,7 +631,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
 
 
     }
-      
+
 
 };
 
@@ -761,8 +788,10 @@ void Admin::adminMenu() {
                     cout<<"Enter Serial No :";
                     cin>>slno;
                     cout << "Enter New Course Code : ";
+                    cin.ignore();
                     getline(cin,code);
                     cout << "Enter New Course Title : ";
+                    cin.ignore();
                     getline(cin,title);
                     cout << "Enter New Course Duration : ";
                     getline(cin,duration);
@@ -771,6 +800,7 @@ void Admin::adminMenu() {
                     break;
                 case 5:
                     system("cls");
+                    cin.ignore();
                     cout<<"Enter Search Key : ";
                     getline(cin,searchKey);
                     cms.SearchCourse(searchKey);
@@ -779,6 +809,7 @@ void Admin::adminMenu() {
                 case 6:
                     // Add Student
                     system("cls");
+                    cin.ignore();
                     cout<<"Enter Student studentID : ";
                     cin>>studentID;
                     cms.AddStudent(studentID);
@@ -786,6 +817,7 @@ void Admin::adminMenu() {
                 case 7:
                     // Remove Student
                     system("cls");
+                    cin.ignore();
                     cout<<"Enter Student studentID : ";
                     getline(cin,studentID);
                     cms.RemoveStudent(studentID);
@@ -797,6 +829,7 @@ void Admin::adminMenu() {
                     cin>>ch;
                     switch (ch)
                     {
+                        cin.ignore();
                         case 1 :
                             system("cls");
                             cout<<"Enter Student ID : ";
@@ -895,7 +928,7 @@ public:
         int CS;
         string InCode;
 
-        while(true){ 
+        while(true){
             cout<<"Student Menu : "<<endl;
             cout<<"1. Request For Admission"<<endl;
             cout<<"2. Show Access List"<<endl;
@@ -907,6 +940,7 @@ public:
             cout<<endl<<"Choose Your Option : ";
             cin>>chn;
             switch(chn){
+                cin.ignore();
                 case 1:
                     system("cls");
                     cout<<"Enter an Institute Code : ";
@@ -930,6 +964,7 @@ public:
                     cout<<"Enter Your Institute Code : ";
                     cin>>InCode;
                     cout<<"Enter The Course Sl No : ";
+                    cin.ignore();
                     cin>>CS;
                     cms.addStudentCourse(InCode, CS);
                     break;

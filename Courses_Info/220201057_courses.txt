@@ -1,0 +1,2 @@
+cse 2101,digital logic design,6 Month
+cse 2102,digital logic design sessional,6 Month
