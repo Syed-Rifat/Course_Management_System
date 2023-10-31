@@ -1,8 +1,8 @@
 
 /*
     Project Name : "Course Management System"
-    Project Aurthor : "Syed Rifat"
-    Gmail : "syedrifat411@gmail.com"
+    Project Aurthor : "Syed Rifat &  A. K. M. Masudur Rahman"
+    Gmail : "syedrifat411@gmail.com & gaurab.2207@gmail.com"
 
 */
 
@@ -15,10 +15,12 @@
 #include <sstream>
 #include <dirent.h>
 #include <algorithm>
-
+#include <thread>
 
 
 using namespace std;
+
+
 
 static string AccessKey;
 
@@ -29,7 +31,7 @@ private:
 
 public:
 void AddCourse(const string& c, const string& t, const string& d) {
-    string filePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Courses_Info\\"+AccessKey+"_courses.txt";
+    string filePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Courses_Info\\" + AccessKey + "_courses.txt";
     ifstream checkFile(filePath);
     string line;
 
@@ -228,9 +230,9 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
         }
     }
 
-    
-    
-    
+
+
+
     bool createFolder(const string& path, const string& folderName) {
         string folderPath = path + folderName;
 
@@ -255,8 +257,8 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
 
         // Check if the student is requested
         ifstream rfile(filePath);
-        
-        
+
+
         if (rfile.is_open()) {
             rfile.close();
 
@@ -268,8 +270,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
             ofstream wfile("C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + AccessKey +"\\"+ userID + ".txt");
             cout << "Student " << userID << " added successfully." << endl;
             //for delete txt file from Requested_Student
-            if (remove(filePath.c_str()) == 0) {     
-            } 
+            remove(filePath.c_str());
 
 
         } else {
@@ -298,9 +299,9 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
             cout << "Error removing student with userID " << userID << "." << endl;
         }
     }
-    
-    
-    
+
+
+
     void DisplayAllStudents() {
         // Specify the directory path for added students
         string directoryPath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + AccessKey ;
@@ -351,7 +352,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
             cout<< "Alredy Requested."<<endl;
         }
         else {
-            // first we have to create the folder userID name 
+            // first we have to create the folder userID name
 
             createFolder(path,userID);
             // then we create a txt file
@@ -386,66 +387,7 @@ void DeleteCourse(const string& identifier, bool byCode = true) {
     }
 
 
-    void AddStudentCourses(const string& InCode,int courseSlNo){
-        // for check student is added or not . if not then student can not add course .
-        string filePath = "C:\\Users\\User\\Desktop\\Course_Management_System\\Added_Student\\" + InCode + "\\" + AccessKey +".txt";
-        string filePathA = "C:\\Users\\User\\Desktop\\Course_Management_System\\Courses_Info\\" + InCode + "_courses.txt";
-        ifstream chkExist(filePath);
-        if(!chkExist.is_open()){
-            cout<<"You have no access to this Institute."<<endl;
-            return;
-        }
 
-
-        // check if there exist 5 course already then we will do a specific task
-        bool chkLine = true;
-        string line;
-        int lineCount = 0;
-        while (getline(chkExist,line)) {
-            lineCount++;
-            if (lineCount >= 5) {
-                chkLine = false;
-            }
-        }
-
-
-        if(chkLine==false){
-            cout<<"You have already added 5 course."<<endl;
-            return;
-        }
-
-        string courseLine;
-        int currentLine = 0;
-        bool lineExists = false;
-
-        // Check if the line exists in the destination file
-        while (getline(chkExist,courseLine)) {
-            if (++currentLine == courseSlNo) {
-                lineExists = true;
-                break;
-            }
-        }
-
-        ifstream copyFrom(filePathA);
-
-        if (lineExists) {
-            cout << "Course already added" << endl;
-        }
-        else {
-            currentLine = 0;
-            // Copy the line from the source file to the destination file
-            ofstream wFile(filePath, ios::app);  // Append mode
-            while (getline(copyFrom, courseLine)) {
-                if (++currentLine == courseSlNo) {
-                    wFile << courseLine << endl;
-                    cout << "Course added successfully" << endl;
-                    break;
-                }
-
-            }
-        }
-
-    }
 
 
     //another add student course function
